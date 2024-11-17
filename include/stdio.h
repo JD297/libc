@@ -1,0 +1,10 @@
+#include <stdarg.h>
+
+#ifndef JD297_LIBC_STDIO_H
+#define JD297_LIBC_STDIO_H
+
+extern int printf(const char *restrict format, ...);
+
+extern int vprintf(const char *restrict format, va_list ap);
+
+#endif
