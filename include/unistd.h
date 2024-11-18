@@ -7,9 +7,7 @@
 #define STDOUT_FILENO	1
 #define STDERR_FILENO	2
 
-#define SYSCALL_READ	0
-#define SYSCALL_WRITE	1
-#define SYSCALL_EXIT	60
+extern long syscall(long number, ...);
 
 extern ssize_t read(unsigned int fd, char *buf, size_t count);
 

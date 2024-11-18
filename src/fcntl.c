@@ -1,15 +1,25 @@
+#include <errno.h>
 #include <fcntl.h>
+#include <stdarg.h>
+#include <sys/syscall.h>
+#include <types.h>
+#include <unistd.h>
 
-int open(const char *filename, int flags)
+int open(const char *filename, int flags, ...)
 {
-        int ret;
+        long ret;
 
-        asm volatile
-        (
-                "syscall"
-                : "=a"(ret)
-                : "0"(SYSCALL_OPEN), "D"(filename), "S"(flags), "d"(0)
-        );
+	va_list ap;
+
+	va_start(ap, flags);
+
+	if ((ret = syscall(3, filename, flags, va_arg(ap, mode_t))) < 0) {
+		va_end(ap);
+
+		SET_ERRNO_RETURN(ret);
+	}
+
+	va_end(ap);
 
         return ret;
 }

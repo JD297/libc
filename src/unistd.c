@@ -1,41 +1,56 @@
+#include <arch-x86_64.h>
+#include <errno.h>
 #include <unistd.h>
+#include <stdarg.h>
+#include <sys/syscall.h>
+
+long syscall(long number, ...)
+{
+	long ret;
+
+	va_list ap;
+
+	va_start(ap, number);
+
+	switch (number) {
+		case SYS_exit:
+		case SYS_utsname:
+			ret = SYS_SYSCALL1(number, va_arg(ap, long));
+		break;
+		case SYS_read:
+		case SYS_write:
+			ret = SYS_SYSCALL3(number, va_arg(ap, long), va_arg(ap, long), va_arg(ap, long));
+		break;
+	}
+
+	va_end(ap);
+
+	return ret;
+}
 
 ssize_t read(unsigned int fd, char* buf, size_t count)
 {
-	ssize_t ret;
+	long ret;
 
-	asm volatile
-	(
-		"syscall"
-		: "=a"(ret)
-		: "0"(SYSCALL_READ), "D"(fd), "S"(buf), "d"(count)
-	);
+	if ((ret = syscall(SYS_read, fd, buf, count)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
 
 	return ret;
 }
 
 ssize_t write(unsigned int fd, const char *buf, size_t count)
 {
-	ssize_t ret;
+	long ret;
 
-	asm volatile
-	(
-		"syscall"
-		: "=a"(ret)
-		: "0"(SYSCALL_WRITE), "D"(fd), "S"(buf), "d"(count)
-	);
+	if ((ret = syscall(SYS_write, fd, buf, count)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
 
 	return ret;
 }
 
 void _exit(int error_code)
 {
-	int ret;
-
-	asm volatile
-	(
-		"syscall"
-		: "=a" (ret)
-		: "0"(SYSCALL_EXIT), "D"(error_code)
-	);
+	syscall(SYS_exit, error_code);
 }
