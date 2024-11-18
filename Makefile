@@ -26,8 +26,7 @@ clean:
 
 install: $(TARGET)
 	cp $(TARGETDIR)/$(TARGET) $(LIBDIR)/$(TARGET)
-	cd $(SRCINCLUDE)
-	find -iname "*.h" -exec cp --parents "{}" $(INCLUDEDIR) \;
+	cd $(SRCINCLUDEDIR) && find -iname "*.h" -exec cp --parents "{}" ../$(INCLUDEDIR) \;
 
 uninstall:
 	rm -f $(LIBDIR)/$(TARGET)
