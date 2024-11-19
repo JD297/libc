@@ -1,3 +1,7 @@
 build/*
+
 lib/*
 !lib/.gitkeep
+
+tests/bin/*
+!tests/bin/.gitkeep

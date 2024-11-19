@@ -12,7 +12,7 @@ SRC_FILES	= $(wildcard $(SRCDIR)/*.c)
 OBJ_FILES	= $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SRC_FILES))
 
 CC		= gcc
-CCFLAGS		= -Wall -Wextra -Wpedantic -nostdlib -W -ffreestanding
+CCFLAGS		= -Wall -Wextra -Wpedantic -nostdlib -W -ffreestanding -g
 CCINCLUDE	= -I $(SRCINCLUDEDIR)
 
 $(TARGET): clean $(OBJ_FILES)
@@ -31,3 +31,17 @@ install: $(TARGET)
 uninstall:
 	rm -f $(LIBDIR)/$(TARGET)
 	rm -rf $(INCLUDEDIR)
+
+TEST_BINDIR	= tests/bin
+TEST_SRCDIR	= tests/src
+TEST_SRCFILES	= $(wildcard $(TEST_SRCDIR)/*.c)
+TEST_TARGETS	= $(patsubst $(TEST_SRCDIR)/%.c,%,$(TEST_SRCFILES))
+
+TEST_CCFLAGS	= -nodefaultlibs -W -ffreestanding -g
+
+tests: $(TARGET) $(TEST_TARGETS)
+	tests/run.sh
+
+%: $(TEST_SRCDIR)/%.c
+	$(CC) $(CCINCLUDE) $(TEST_CCFLAGS) -DTARGET=\"$@\" -o $(TEST_BINDIR)/$@ $< -L$(TARGETDIR) -l:$(TARGET)
+	$(CC) -DTARGET=\"$@\" -o $(TEST_BINDIR)/expc_$@ $<
