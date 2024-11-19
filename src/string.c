@@ -31,7 +31,7 @@ int strcmp(const char *s1, const char *s2)
 {
 	unsigned char cmp = 0;
 
-	for (int i = 0; ; i++) {
+	for (size_t i = 0; ; i++) {
 		cmp = s1[i] - s2[i];
 
 		if (cmp != 0) {
@@ -46,7 +46,7 @@ int strncmp(const char *s1, const char *s2, size_t n)
 {
 	unsigned char cmp = 0;
 
-	for (int i = 0; i < n; i++) {
+	for (size_t i = 0; i < n; i++) {
 		cmp = s1[i] - s2[i];
 
 		if (cmp != 0) {
@@ -71,7 +71,7 @@ char *strstr(const char *haystack, const char *needle)
 		return NULL;
 	}
 
-	for (int i = 0; i < haystack_len - needle_len; i++) {
+	for (size_t i = 0; i < haystack_len - needle_len; i++) {
 		if (strncmp(haystack + i, needle, needle_len) == 0) {
 			return haystack + i;
 		}

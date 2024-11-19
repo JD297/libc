@@ -15,11 +15,22 @@ long syscall(long number, ...)
 	switch (number) {
 		case SYS_exit:
 		case SYS_utsname:
-			ret = SYS_SYSCALL1(number, va_arg(ap, long));
+			ret = SYS_SYSCALL1(number, 	va_arg(ap, long)					);
+		break;
+		case SYS_munmap:
+			ret = SYS_SYSCALL2(number,      va_arg(ap, long), va_arg(ap, long)			);
 		break;
 		case SYS_read:
 		case SYS_write:
-			ret = SYS_SYSCALL3(number, va_arg(ap, long), va_arg(ap, long), va_arg(ap, long));
+			ret = SYS_SYSCALL3(number, 	va_arg(ap, long), va_arg(ap, long), va_arg(ap, long)	);
+		break;
+		case SYS_mremap:
+			ret = SYS_SYSCALL4(number,      va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
+							va_arg(ap, long)					);
+		break;
+		case SYS_mmap:
+			ret = SYS_SYSCALL6(number, 	va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
+							va_arg(ap, long), va_arg(ap, long), va_arg(ap, long)	);
 		break;
 	}
 

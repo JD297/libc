@@ -3,10 +3,6 @@
 #ifndef JD297_LIBC_SYS_MMAN_H
 #define JD297_LIBC_SYS_MMAN_H
 
-#define SYSCALL_MMAP	9
-#define SYSCALL_MUNMAP	11
-#define SYSCALL_MREMAP	25
-
 #define PROT_NONE       0x0
 #define PROT_READ	0x1
 #define PROT_WRITE	0x2

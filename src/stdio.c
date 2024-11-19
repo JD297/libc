@@ -25,7 +25,7 @@ int vprintf(const char *restrict format, va_list ap)
 
 	const char *found;
 
-	while (found = strstr(format_ptr, conversion_specifier)) {
+	while ((found = strstr(format_ptr, conversion_specifier)) != NULL) {
 		const char *conversion_value = va_arg(ap, char *);
 
 		int nf = write(STDOUT_FILENO, format_ptr, strlen(format_ptr) - strlen(found));
