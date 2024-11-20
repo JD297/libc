@@ -2,5 +2,7 @@
 
 int main()
 {
-	return strcmp("Tests strcmp() neq with A.", "Tests strcmp() neq with Z.");
+	char str1[] = "abcd", str2[] = "abCd";
+
+	return strcmp(str1, str2);
 }
