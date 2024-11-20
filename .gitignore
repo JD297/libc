@@ -5,3 +5,6 @@ lib/*
 
 tests/bin/*
 !tests/bin/.gitkeep
+
+tests/out/*
+!tests/out/.gitkeep

@@ -1,19 +1,17 @@
 #!/bin/bash
 
 ##	Return Code Method Tests
+returntests=$(find tests/src/ -type f -exec basename "{}" .c \; | grep "_return")
 
-###	Test return from main()
-testbin=test_00001_return_0; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
-testbin=test_00002_return_7; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
-testbin=test_00003_return_-1; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
+for returntest in $returntests
+do
+	testbin=$returntest; printf "Running test %s" $testbin; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; else printf "[OK]\n"; fi
+done
 
-###	Test string.h
+## Diff Method Tests
+difftests=$(find tests/src/ -type f -exec basename "{}" .c \; | grep "test_diff")
 
-####	Test strcmp()
-testbin=test_00004_return_string_strcmp_1; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
-testbin=test_00005_return_string_strcmp_2; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
-testbin=test_00006_return_string_strcmp_3; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
-
-####	Test strlen()
-testbin=test_00007_return_string_strlen_1; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
-testbin=test_00008_return_string_strlen_2; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; fi
+for difftest in $difftests
+do
+	testbin=$difftest; printf "Running test: %s: " $testbin; ./tests/bin/$testbin 1> tests/out/$testbin.stdout; ./tests/bin/expc_$testbin 1> tests/out/expc_$testbin.stdout ; diff tests/out/expc_$testbin.stdout tests/out/$testbin.stdout; res=$?; expc=0; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; else printf "[OK]\n"; fi
+done
