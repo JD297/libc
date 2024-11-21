@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##	Return Code Method Tests
+## Return Code Method Tests
 returntests=$(find tests/src/ -type f -exec basename "{}" .c \; | grep "_return")
 
 for returntest in $returntests
