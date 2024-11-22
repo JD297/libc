@@ -3,6 +3,8 @@
 #ifndef JD297_LIBC_STRING_H
 #define JD297_LIBC_STRING_H
 
+extern char *strerror(int errnum);
+
 extern void *memset(void *s, int c, size_t n);
 
 extern size_t strlen(const char *s);
