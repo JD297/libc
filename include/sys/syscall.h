@@ -14,5 +14,7 @@
 #define SYS_getcwd	79
 #define SYS_chdir	80
 #define SYS_chroot	161
+#define SYS_mount	165
+#define SYS_umount	166
 
 #endif

@@ -25,6 +25,7 @@ long syscall(long number, ...)
 		break;
 		case SYS_munmap:
 		case SYS_getcwd:
+		case SYS_umount:
 			ret = SYS_SYSCALL2(number,      va_arg(ap, long), va_arg(ap, long)			);
 		break;
 		case SYS_read:
@@ -34,6 +35,10 @@ long syscall(long number, ...)
 		case SYS_mremap:
 			ret = SYS_SYSCALL4(number,      va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
 							va_arg(ap, long)					);
+		break;
+		case SYS_mount:
+			ret = SYS_SYSCALL5(number,      va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
+							va_arg(ap, long), va_arg(ap, long)			);
 		break;
 		case SYS_mmap:
 			ret = SYS_SYSCALL6(number, 	va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
