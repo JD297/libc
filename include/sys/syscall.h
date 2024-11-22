@@ -13,5 +13,6 @@
 #define SYS_utsname	63
 #define SYS_getcwd	79
 #define SYS_chdir	80
+#define SYS_chroot	161
 
 #endif

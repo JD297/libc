@@ -23,4 +23,6 @@ extern void _exit(int error_code);
 extern char *getcwd(char *buf, size_t size);
 
 extern int chdir(const char *path);
+
+extern int chroot(const char *path);
 #endif

@@ -20,6 +20,7 @@ long syscall(long number, ...)
 		case SYS_exit:
 		case SYS_utsname:
 		case SYS_chdir:
+		case SYS_chroot:
 			ret = SYS_SYSCALL1(number, 	va_arg(ap, long)					);
 		break;
 		case SYS_munmap:
@@ -110,6 +111,17 @@ int chdir(const char *path)
 	long ret;
 
 	if ((ret = syscall(SYS_chdir, path)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
+}
+
+int chroot(const char *path)
+{
+	long ret;
+
+	if ((ret = syscall(SYS_chroot, path)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
