@@ -19,6 +19,7 @@ long syscall(long number, ...)
 		case SYS_close:
 		case SYS_exit:
 		case SYS_utsname:
+		case SYS_chdir:
 			ret = SYS_SYSCALL1(number, 	va_arg(ap, long)					);
 		break;
 		case SYS_munmap:
@@ -98,6 +99,17 @@ char *getcwd(char *buf, size_t size)
 	long ret;
 
 	if ((ret = syscall(SYS_getcwd, buf, size)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
+}
+
+int chdir(const char *path)
+{
+	long ret;
+
+	if ((ret = syscall(SYS_chdir, path)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 

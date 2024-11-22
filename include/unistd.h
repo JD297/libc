@@ -21,4 +21,6 @@ extern pid_t fork(void);
 extern void _exit(int error_code);
 
 extern char *getcwd(char *buf, size_t size);
+
+extern int chdir(const char *path);
 #endif

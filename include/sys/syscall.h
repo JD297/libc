@@ -12,5 +12,6 @@
 #define SYS_exit	60
 #define SYS_utsname	63
 #define SYS_getcwd	79
+#define SYS_chdir	80
 
 #endif
