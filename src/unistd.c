@@ -13,6 +13,7 @@ long syscall(long number, ...)
 	va_start(ap, number);
 
 	switch (number) {
+		case SYS_close:
 		case SYS_exit:
 		case SYS_utsname:
 			ret = SYS_SYSCALL1(number, 	va_arg(ap, long)					);
@@ -55,6 +56,17 @@ ssize_t write(unsigned int fd, const char *buf, size_t count)
 	long ret;
 
 	if ((ret = syscall(SYS_write, fd, buf, count)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
+}
+
+int close(int fd)
+{
+	long ret;
+
+	if ((ret = syscall(SYS_close, fd)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
