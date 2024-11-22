@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
+#include <types.h>
 #include <unistd.h>
 
-FILE *stdin	= (FILE*)(int *)~STDIN_FILENO;
-FILE *stdout	= (FILE*)(int *)~STDOUT_FILENO;
-FILE *stderr	= (FILE*)(int *)~STDERR_FILENO;
+FILE *stdin	= (FILE*)(intptr_t)~STDIN_FILENO;
+FILE *stdout	= (FILE*)(intptr_t)~STDOUT_FILENO;
+FILE *stderr	= (FILE*)(intptr_t)~STDERR_FILENO;
 
 int printf(const char *restrict format, ...)
 {
@@ -19,7 +20,20 @@ int printf(const char *restrict format, ...)
 	return nprinted;
 }
 
-int vprintf(const char *restrict format, va_list ap)
+int fprintf(FILE *restrict stream, const char *restrict format, ...)
+{
+	va_list ap;
+
+	va_start(ap, format);
+
+	int nprinted = vfprintf(stream, format, ap);
+
+	va_end(ap);
+
+	return nprinted;
+}
+
+int vfprintf(FILE *restrict stream, const char *restrict format, va_list ap)
 {
 	char *format_ptr = format;
 
@@ -32,9 +46,9 @@ int vprintf(const char *restrict format, va_list ap)
 	while ((found = strstr(format_ptr, conversion_specifier)) != NULL) {
 		const char *conversion_value = va_arg(ap, char *);
 
-		int nf = write(STDOUT_FILENO, format_ptr, strlen(format_ptr) - strlen(found));
+		int nf = write(fileno(stream), format_ptr, strlen(format_ptr) - strlen(found));
 
-		int ncs = write(STDOUT_FILENO, conversion_value, strlen(conversion_value));
+		int ncs = write(fileno(stream), conversion_value, strlen(conversion_value));
 
 		if (nf == -1 || ncs == -1) {
 			return -1;
@@ -45,7 +59,7 @@ int vprintf(const char *restrict format, va_list ap)
 		format_ptr += nf + strlen(conversion_specifier);
 	}
 
-	int n = write(STDOUT_FILENO, format_ptr, strlen(format_ptr));
+	int n = write(fileno(stream), format_ptr, strlen(format_ptr));
 
 	if (n == -1) {
 		return -1;
@@ -54,4 +68,9 @@ int vprintf(const char *restrict format, va_list ap)
 	nwritten += n;
 
 	return nwritten;
+}
+
+int vprintf(const char *restrict format, va_list ap)
+{
+	return vfprintf(stdout, format, ap);
 }
