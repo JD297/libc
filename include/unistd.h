@@ -25,4 +25,6 @@ extern char *getcwd(char *buf, size_t size);
 extern int chdir(const char *path);
 
 extern int chroot(const char *path);
+
+extern int reboot(int op);
 #endif

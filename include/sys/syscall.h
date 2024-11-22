@@ -16,5 +16,6 @@
 #define SYS_chroot	161
 #define SYS_mount	165
 #define SYS_umount	166
+#define SYS_reboot	169
 
 #endif

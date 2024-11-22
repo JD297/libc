@@ -1,5 +1,6 @@
 #include <arch-x86_64.h>
 #include <errno.h>
+#include <linux/reboot.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include <sys/syscall.h>
@@ -33,6 +34,7 @@ long syscall(long number, ...)
 			ret = SYS_SYSCALL3(number, 	va_arg(ap, long), va_arg(ap, long), va_arg(ap, long)	);
 		break;
 		case SYS_mremap:
+		case SYS_reboot:
 			ret = SYS_SYSCALL4(number,      va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
 							va_arg(ap, long)					);
 		break;
@@ -127,6 +129,17 @@ int chroot(const char *path)
 	long ret;
 
 	if ((ret = syscall(SYS_chroot, path)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
+}
+
+int reboot(int op)
+{
+	long ret;
+
+	if ((ret = syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2C, op, NULL)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
