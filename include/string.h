@@ -1,4 +1,4 @@
-#include <types.h>
+#include <stddef.h>
 
 #ifndef JD297_LIBC_STRING_H
 #define JD297_LIBC_STRING_H

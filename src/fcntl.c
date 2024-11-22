@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <stdarg.h>
 #include <sys/syscall.h>
-#include <types.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 int open(const char *filename, int flags, ...)

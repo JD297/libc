@@ -1,5 +1,6 @@
 #include <sys/types.h>
-#include <types.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #ifndef JD297_LIBC_UNISTD_H
 #define JD297_LIBC_UNISTD_H

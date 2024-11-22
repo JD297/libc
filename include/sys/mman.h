@@ -1,4 +1,5 @@
-#include <types.h>
+#include <stddef.h>
+#include <sys/types.h>
 
 #ifndef JD297_LIBC_SYS_MMAN_H
 #define JD297_LIBC_SYS_MMAN_H

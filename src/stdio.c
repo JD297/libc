@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include <types.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 FILE *stdin	= (FILE*)(intptr_t)~STDIN_FILENO;
