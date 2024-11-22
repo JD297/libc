@@ -22,6 +22,7 @@ long syscall(long number, ...)
 			ret = SYS_SYSCALL1(number, 	va_arg(ap, long)					);
 		break;
 		case SYS_munmap:
+		case SYS_getcwd:
 			ret = SYS_SYSCALL2(number,      va_arg(ap, long), va_arg(ap, long)			);
 		break;
 		case SYS_read:
@@ -90,4 +91,15 @@ pid_t fork(void)
 void _exit(int error_code)
 {
 	syscall(SYS_exit, error_code);
+}
+
+char *getcwd(char *buf, size_t size)
+{
+	long ret;
+
+	if ((ret = syscall(SYS_getcwd, buf, size)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
 }

@@ -11,5 +11,6 @@
 #define SYS_fork	57
 #define SYS_exit	60
 #define SYS_utsname	63
+#define SYS_getcwd	79
 
 #endif
