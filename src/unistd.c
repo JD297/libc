@@ -13,6 +13,9 @@ long syscall(long number, ...)
 	va_start(ap, number);
 
 	switch (number) {
+		case SYS_fork:
+			ret = SYS_SYSCALL0(number								);
+		break;
 		case SYS_close:
 		case SYS_exit:
 		case SYS_utsname:
@@ -67,6 +70,17 @@ int close(int fd)
 	long ret;
 
 	if ((ret = syscall(SYS_close, fd)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
+}
+
+pid_t fork(void)
+{
+	long ret;
+
+	if ((ret = syscall(SYS_close)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
