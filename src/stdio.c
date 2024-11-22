@@ -2,6 +2,10 @@
 #include <string.h>
 #include <unistd.h>
 
+FILE *stdin	= (FILE*)(int *)~STDIN_FILENO;
+FILE *stdout	= (FILE*)(int *)~STDOUT_FILENO;
+FILE *stderr	= (FILE*)(int *)~STDERR_FILENO;
+
 int printf(const char *restrict format, ...)
 {
 	va_list ap;
