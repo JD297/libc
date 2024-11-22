@@ -27,6 +27,7 @@ long syscall(long number, ...)
 		case SYS_munmap:
 		case SYS_getcwd:
 		case SYS_umount:
+		case SYS_stat:
 			ret = SYS_SYSCALL2(number,      va_arg(ap, long), va_arg(ap, long)			);
 		break;
 		case SYS_read:
