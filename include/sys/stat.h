@@ -37,7 +37,7 @@ typedef struct stat {
 	time_t		st_atime;
 	time_t		st_mtime;
 	time_t		st_ctime;
-} stat;
+};
 
 extern int stat(const char *restrict pathname, struct stat *restrict statbuf);
 
