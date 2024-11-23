@@ -5,7 +5,7 @@ returntests=$(find tests/src/ -type f -exec basename "{}" .c \; | grep "_return"
 
 for returntest in $returntests
 do
-	testbin=$returntest; printf "Running test %s" $testbin; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "%s: [FAILED]: expected return %d: was: %d\n" $testbin $expc $res; else printf "[OK]\n"; fi
+	testbin=$returntest; printf "Running test: %s: " $testbin; ./tests/bin/$testbin; res=$?; ./tests/bin/expc_$testbin; expc=$?; if [ $res -ne $expc ]; then printf "[FAILED]: expected return %d: was: %d\n" $expc $res; else printf "[OK]\n"; fi
 done
 
 ## Diff Method Tests
