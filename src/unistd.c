@@ -32,6 +32,7 @@ long syscall(long number, ...)
 		break;
 		case SYS_read:
 		case SYS_write:
+		case SYS_open:
 			ret = SYS_SYSCALL3(number, 	va_arg(ap, long), va_arg(ap, long), va_arg(ap, long)	);
 		break;
 		case SYS_mremap:

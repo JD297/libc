@@ -13,7 +13,12 @@ int open(const char *filename, int flags, ...)
 
 	va_start(ap, flags);
 
-	if ((ret = syscall(3, filename, flags, va_arg(ap, mode_t))) < 0) {
+	mode_t mode = 0;
+
+	// TODO check flags contains O_CREAT or O_TMFILE
+	// mode = *va_arg(ap, mode_t);
+
+	if ((ret = syscall(SYS_open, filename, flags, mode)) < 0) {
 		va_end(ap);
 
 		SET_ERRNO_RETURN(ret);
