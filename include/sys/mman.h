@@ -28,6 +28,8 @@
 #define MAP_SYNC		0x80000
 #define MAP_FIXED_NOREPLACE 	0x100000
 
+#define MAP_FAILED		((void *) -1)
+
 #define MAP_HUGE_SHIFT	26
 #define MAP_HUGE_MASK	0x3f
 
