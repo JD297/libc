@@ -40,6 +40,7 @@ long syscall(long number, ...)
 							va_arg(ap, long)					);
 		break;
 		case __NR_mount:
+		case __NR_statx:
 			ret = SYS_SYSCALL5(number,      va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
 							va_arg(ap, long), va_arg(ap, long)			);
 		break;
