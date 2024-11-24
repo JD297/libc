@@ -11,6 +11,8 @@
 #define STDOUT_FILENO	1
 #define STDERR_FILENO	2
 
+extern char **environ;
+
 extern long syscall(long number, ...);
 
 extern ssize_t read(unsigned int fd, char *buf, size_t count);

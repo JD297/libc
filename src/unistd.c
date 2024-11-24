@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <stdarg.h>
 
+char **environ;
+
 long syscall(long number, ...)
 {
 	long ret;
