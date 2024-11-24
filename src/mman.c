@@ -1,13 +1,12 @@
 #include <errno.h>
 #include <sys/mman.h>
-#include <sys/syscall.h>
 #include <unistd.h>
 
 void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
 {
 	long ret;
 
-	if ((ret = syscall(SYS_mmap, addr, length, prot, flags, fd, offset)) < 0) {
+	if ((ret = syscall(__NR_mmap, addr, length, prot, flags, fd, offset)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
@@ -18,7 +17,7 @@ int munmap(void *addr, size_t length)
 {
 	long ret;
 
-	if ((ret = syscall(SYS_munmap, addr, length)) < 0) {
+	if ((ret = syscall(__NR_munmap, addr, length)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
@@ -29,7 +28,7 @@ void *mremap(void *old_address, size_t old_size, size_t new_size, int flags, ...
 {
 	long ret;
 
-	if ((ret = syscall(SYS_mremap, old_address, old_size, new_size, flags)) < 0) {
+	if ((ret = syscall(__NR_mremap, old_address, old_size, new_size, flags)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 

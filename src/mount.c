@@ -1,13 +1,12 @@
 #include <errno.h>
 #include <unistd.h>
 #include <sys/mount.h>
-#include <sys/syscall.h>
 
 int mount(const char *source, const char *target, const char *filesystemtype, unsigned long mountflags, const void *data)
 {
 	long ret;
 
-	if ((ret = syscall(SYS_mount, source, target, filesystemtype, mountflags, data)) < 0) {
+	if ((ret = syscall(__NR_mount, source, target, filesystemtype, mountflags, data)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
@@ -18,7 +17,7 @@ int umount2(const char *target, int flags)
 {
 	long ret;
 
-	if ((ret = syscall(SYS_umount, target, flags)) < 0) {
+	if ((ret = syscall(__NR_umount2, target, flags)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
