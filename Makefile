@@ -13,7 +13,7 @@ OBJ_FILES	= $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SRC_FILES))
 
 CC		= gcc
 CCFLAGS		= -Wall -Wextra -Wpedantic -nostdlib -W -ffreestanding -g
-CCINCLUDE	= -I $(SRCINCLUDEDIR)
+CCINCLUDE	= -I $(SRCINCLUDEDIR) -I $(INCLUDEDIR)
 
 $(TARGET): clean $(OBJ_FILES)
 	$(CC) $(CCFLAGS) -shared $(OBJ_FILES) -o $(TARGETDIR)/$(TARGET)
