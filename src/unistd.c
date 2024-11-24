@@ -42,6 +42,7 @@ long syscall(long number, ...)
 		break;
 		case __NR_mremap:
 		case __NR_reboot:
+		case __NR_wait4:
 			ret = SYS_SYSCALL4(number,      va_arg(ap, long), va_arg(ap, long), va_arg(ap, long),
 							va_arg(ap, long)					);
 		break;
