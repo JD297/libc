@@ -25,4 +25,6 @@ extern char *strcpy(char *restrict dst, const char *restrict src);
 
 extern char *strcat(char *restrict dst, const char *restrict src);
 
+extern char *strtok_r(char *restrict str, const char *restrict delim, char **restrict saveptr);
+
 #endif

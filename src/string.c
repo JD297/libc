@@ -250,3 +250,33 @@ char *strcat(char *restrict dst, const char *restrict src)
 
 	return dst;
 }
+
+char *strtok_r(char *restrict str, const char *restrict delim, char **restrict saveptr)
+{
+	char* found = NULL;
+	char* start = NULL;
+
+	if (str != NULL) {
+		found = strstr(str, delim);
+		start = str;
+	} else if (*saveptr != NULL) {
+		start = *saveptr;
+		found = strstr(*saveptr, delim);
+	}
+
+	if (found == NULL) {
+		if (start != NULL) {
+			*saveptr = NULL;
+
+			return start;
+		}
+
+		return NULL;
+	}
+
+	*found = '\0';
+
+	*saveptr = found + 1;
+
+	return start;
+}
