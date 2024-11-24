@@ -3,6 +3,9 @@
 
 extern int errno;
 
+extern char *program_invocation_name;
+extern char *program_invocation_short_name;
+
 #define SET_ERRNO_RETURN(RET) errno = RET; return -1
 
 #define	EPERM		 1	/* Operation not permitted */
