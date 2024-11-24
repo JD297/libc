@@ -23,6 +23,10 @@ extern int  close(int fd);
 
 extern pid_t fork(void);
 
+extern int execvpe(const char *file, char *const argv[], char *const envp[]);
+
+extern int execvp(const char *file, char *const argv[]);
+
 extern void _exit(int error_code);
 
 extern char *getcwd(char *buf, size_t size);

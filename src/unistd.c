@@ -34,6 +34,7 @@ long syscall(long number, ...)
 		case __NR_read:
 		case __NR_write:
 		case __NR_open:
+		case __NR_execve:
 			ret = SYS_SYSCALL3(number, 	va_arg(ap, long), va_arg(ap, long), va_arg(ap, long)	);
 		break;
 		case __NR_mremap:
@@ -99,6 +100,38 @@ pid_t fork(void)
 	}
 
 	return ret;
+}
+
+int execvpe(const char *file, char *const argv[], char *const envp[])
+{
+	char *pathname;
+
+	// file = cat
+	// pathname = cat -> /usr/bin/cat or /cat -> /cat
+	/*
+	 * In our case by just booting the image, their will only be a limited environment
+	 * so we have not use a default PATH with confstr(_CS_PATH) as mentoined in exec(3)
+	 * this function should return "/bin:/usr/bin" when called as above
+	 */
+	char *env_path = "/bin:/usr/bin"; // TODO HARD confstr(_CS_PATH)
+
+	if (strstr(file, "/") != NULL) {
+		pathname = file;
+	}
+	// TODO else search the program from PATH
+
+	long ret;
+
+	if ((ret = syscall(__NR_execve, pathname, argv, envp)) < 0) {
+		SET_ERRNO_RETURN(ret);
+	}
+
+	return ret;
+}
+
+int execvp(const char *file, char *const argv[])
+{
+	return execvpe(file, argv, environ);
 }
 
 void _exit(int error_code)
