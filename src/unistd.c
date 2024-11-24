@@ -1,8 +1,11 @@
+#include <linux/limits.h>
 #include <linux/reboot.h>
 #include <arch-x86_64.h>
 #include <errno.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <string.h>
+#include <sys/stat.h>
 
 char **environ;
 
@@ -104,7 +107,7 @@ pid_t fork(void)
 
 int execvpe(const char *file, char *const argv[], char *const envp[])
 {
-	char *pathname;
+	char pathname[PATH_MAX] = { 0 };
 
 	// file = cat
 	// pathname = cat -> /usr/bin/cat or /cat -> /cat
@@ -116,9 +119,32 @@ int execvpe(const char *file, char *const argv[], char *const envp[])
 	char *env_path = "/bin:/usr/bin"; // TODO HARD confstr(_CS_PATH)
 
 	if (strstr(file, "/") != NULL) {
-		pathname = file;
+		strcpy(pathname, file);
+	} else {
+		char *saveptr;
+
+		char* token = strtok_r(env_path, ":", &saveptr);
+
+		while (token != NULL) {
+			strcpy(pathname, token);
+			strcat(pathname, '/');
+			strcat(pathname, file);
+
+			struct stat sb;
+
+			if (stat(pathname, &sb) == 0) {
+				break;
+			}
+
+			memset(pathname, 0, PATH_MAX);
+
+			token = strtok_r(NULL, ":", &saveptr);
+		}
+
+		if (pathname == NULL) {
+			SET_ERRNO_RETURN(errno);
+		}
 	}
-	// TODO else search the program from PATH
 
 	long ret;
 
