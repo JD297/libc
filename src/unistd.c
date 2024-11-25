@@ -99,7 +99,7 @@ pid_t fork(void)
 {
 	long ret;
 
-	if ((ret = syscall(__NR_close)) < 0) {
+	if ((ret = syscall(__NR_fork)) < 0) {
 		SET_ERRNO_RETURN(ret);
 	}
 
