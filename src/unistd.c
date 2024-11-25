@@ -117,18 +117,17 @@ int execvpe(const char *file, char *const argv[], char *const envp[])
 	 * so we have not use a default PATH with confstr(_CS_PATH) as mentoined in exec(3)
 	 * this function should return "/bin:/usr/bin" when called as above
 	 */
-	char *env_path = "/bin:/usr/bin"; // TODO HARD confstr(_CS_PATH)
+	char env_path[] = "/usr/bin:/bin"; // TODO HARD confstr(_CS_PATH)
+	char * saveptr;
 
 	if (strstr(file, "/") != NULL) {
 		strcpy(pathname, file);
 	} else {
-		char *saveptr;
-
 		char* token = strtok_r(env_path, ":", &saveptr);
 
 		while (token != NULL) {
 			strcpy(pathname, token);
-			strcat(pathname, '/');
+			strcat(pathname, "/");
 			strcat(pathname, file);
 
 			struct stat sb;
