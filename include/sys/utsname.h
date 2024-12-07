@@ -14,4 +14,6 @@ typedef struct utsname {
 	char domainname[_UTSNAME_LENGTH +1];
 };
 
+int uname(struct utsname *buf);
+
 #endif
