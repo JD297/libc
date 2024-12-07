@@ -5,7 +5,7 @@
 
 #define _UTSNAME_LENGTH __NEW_UTS_LEN
 
-typedef struct utsname {
+struct utsname {
 	char sysname[_UTSNAME_LENGTH + 1];
 	char nodename[_UTSNAME_LENGTH + 1];
 	char release[_UTSNAME_LENGTH + 1];
@@ -14,6 +14,6 @@ typedef struct utsname {
 	char domainname[_UTSNAME_LENGTH +1];
 };
 
-int uname(struct utsname *buf);
+extern int uname(struct utsname *buf);
 
 #endif

@@ -35,7 +35,7 @@ int fprintf(FILE *restrict stream, const char *restrict format, ...)
 
 int vfprintf(FILE *restrict stream, const char *restrict format, va_list ap)
 {
-	char *format_ptr = format;
+	const char *restrict format_ptr = format;
 
 	int nwritten = 0;
 

@@ -10,7 +10,7 @@ struct timespec {
 	__s32	__reserved;
 };
 
-typedef struct stat {
+struct stat {
 	dev_t		st_dev;
 	ino_t		st_ino;
 	mode_t		st_mode;

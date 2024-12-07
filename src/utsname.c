@@ -1,4 +1,5 @@
 #include <errno.h>
+#include <sys/utsname.h>
 #include <unistd.h>
 
 int uname(struct utsname *buf)

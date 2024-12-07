@@ -135,6 +135,7 @@ char *strerror(int errnum)
 		case ENOTRECOVERABLE: return "State not recoverable";
 		case ERFKILL: return "Operation not possible due to RF-kill";
 		case EHWPOISON: return "Memory page has hardware error";
+		default: return "An unknown error occured";
 	}
 }
 
@@ -198,7 +199,7 @@ int strncmp(const char *s1, const char *s2, size_t n)
 char *strstr(const char *haystack, const char *needle)
 {
 	if (needle[0] == '\0') {
-		return haystack;
+		return (char *)haystack;
 	}
 
 	size_t haystack_len = strlen(haystack);
@@ -211,7 +212,7 @@ char *strstr(const char *haystack, const char *needle)
 
 	for (size_t i = 0; i < haystack_len - needle_len; i++) {
 		if (strncmp(haystack + i, needle, needle_len) == 0) {
-			return haystack + i;
+			return (char* )haystack + i;
 		}
 	}
 
